@@ -1,7 +1,7 @@
 # metagenomics_data_processing
 Resources for metagenomics data processing and analyses
 
-The following directories are included: 
+Information covering the following topics are included: 
 
 1. Setting up a text edittor and git/github.
 2. Command line essentials, tips and tricks.
