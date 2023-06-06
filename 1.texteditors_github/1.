@@ -1,1 +1,11 @@
+When writing code, people turn to text editors because they work with plain text. 
+They are an essential tool and allow for writing, editing, and saving code.
 
+Text editors can highlight code or include an indentation, but don't do much beyond those simple formatting functions.
+
+The "best" text editor really comes down to personal preference.
+
+Common text editors include: 
+Sublime Text (https://www.sublimetext.com)
+BBEdit (https://www.barebones.com/products/bbedit/)
+emacs (https://www.gnu.org/software/emacs/)
