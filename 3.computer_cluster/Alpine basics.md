@@ -1,0 +1,225 @@
+Alpine basics
+
+Author
+Emily Yeo
+
+Getting started on Alpine
+
+This tutorial should help you get a good grip of using the alpine cluster. You will need to have an account with “duo mobile” authorization set up before you start. Alpine is great for computationally heavy tasks. It allows up to 10TBz of storage for you to be able to do so. BUT, the contents of your account do get purged every 90days. So do be sure to remove your analysis outputs to somewhere safe when done (how to do so is included in the tutorial below).
+
+Note: In this document, sometimes we use the convention:
+
+$ banana
+> hotdog
+
+to mean that the user types in “banana” and the computer outputs “hotdog”. For example:
+
+$ ls
+> banana.txt mango.jpeg hotdogs/
+
+So if you copy-paste code from those examples, do not include the “$” (and certainly do not copy-paste the output after “>” as this is just example output and NOT code)!
+
+Logging into a cluster compute node:
+
+Login:
+
+<username>@login.rc.colorado.edu
+
+For example:
+
+$ssh emye7956@login.rc.colorado.edu
+
+Note, for both this (ssh) and later (sftp), you will need to do 2 factor authentication in duo to get in. So please have the duo app ready and open when you do this. Additionally, you will need to type in your password, but the terminal will not show any feedback (e.g. dots) when you do so.
+
+The login node is kinda like a gate to the cluster. You can see your files on the cluster, but you can do very little computational work until you are “past the gate” and onto a compute node:
+
+Get onto compute node:
+
+$acompile -n 4 --time=4:20:00
+
+Get onto Alpine.
+
+$module load slurm/alpine
+
+get into correct directory where your files are stored. Here for example, I have a directory called “MetaAir”.
+
+$cd /scratch/alpine/emye7956/MetaAir
+
+Uploading data:
+
+On your laptop, use cd to go in the terminal to the directory where your files are located. For example:
+
+$cd /Volumes/IPHY/ADORLab/Lab\ Projects/MetaAIR/Metagenomics/1.K99_Shotgun
+
+Next, sftp into the cluster. This is very similar to ssh, but for file transfer.
+
+$sftp \<username\>\@login.rc.colorado.edu
+
+For example:
+
+$sftp emye7956\@login.rc.colorado.edu
+
+Once you’re connected, you can cd around like you are used to. So, use cd to go to the folder where you want to put the data files, and then use pwd to confirm you are in the correct place.
+
+$sftp> cd /scratch/alpine/emye7956/MetaAir
+
+sftp> pwd
+
+/scratch/alpine/emye7956/MetaAir
+
+Make a directory where you want to upload the files: mkdir data
+
+Next, put the files you want. If you want to put a folder with everything in it, you need to use the -r option. Here is an example. Use get here if you are moving things the otherdirection.
+
+sftp> put -r blank
+
+On the other hand, you could do something like this:
+
+sftp> put blank/*.gz
+
+Which would also work (* is pattern match so this would get all files in MetaAir/blank ending in .gz).
+
+Creating environments:
+
+Many of the metagenomic tools you will want to use operate within “environments” to avoid conflicts with existing software. “mamaba” and “conda” are tools that create these environments. This can be done like below:
+
+Environments with Conda:
+
+$module load anaconda
+
+If you need to create a conda environment, you do it like this:
+
+$conda create -n metaair_env
+
+Then to activate it:
+
+$conda activate /scratch/alpine/\$USER/software/anaconda/envs/metaair_env
+
+Note how the input line will change from “(base)” to “(metaair_env)” as an indication of which environment you are using:
+
+(base) [emye7956@c3cpu-a5-u30-4]$ conda activate metaair_env
+
+changes to:
+
+(metaair_env) [emye7956@c3cpu-a5-u30-4]$
+
+Once you have activated the environment, you can then install the software you need. For instance, if I want to run mutliqc, I need to install it:
+
+$conda install multiqc
+
+In most cases, the software you are using will have a github with the specific command options you can run for installation. Often there is a github URL you can copy and use, which makes it super easy. Here is something it might look like:
+
+$git clone https://github.com/maxvonhippel/AttackerSynthesis.git $cd AttackerSynthesis $pip install .
+
+Sometimes the project does not have instructions to install, but DOES have “releases” listed on the side of the page. In this case, click on the releases, then right-click on the linux one and “copy url”. Then go to the terminal and do something like this:
+
+$wget https://github.com/s-andrews/FastQC/archive/refs/tags/v0.12.1.zip
+
+$unzip v0.12.1
+
+$cd v0.12.1
+
+$ls
+
+and lo and behold, the compiled binary is in the folder already. (Trimmomatic is also like this!) In other cases, you have to follow some annoying compile instructions from the github README, like in this example:
+
+
+
+$git clone https://github.com/najoshi/sickle.git
+
+$cd sickle
+
+$make
+
+and you are done. Every once in a while you will encounter some software that does not have a Github. Such software is very frustrating! In general, in these cases you peruse the website to find a download link for binaries for Linux. Then you copy the url just like you did in the github releases example above, and ‘wget’ it. Chances are it’s a zip file and you can unzip it. But, it might be some weird linux alternative, such as a tar file. In this case, I reccomend using ChatGPT to figure out how to “unzip” the annoying file. Or stack overflow.
+
+Environments with yaml files:
+
+Sometimes it takes a while to configure an environment that has all the right software, dependencies and versions necessary to run the commands you want. Wouldn’t it be so nice if you could save and share EXACTLY how your environment is configured…YOU CAN!
+
+Now you want to make an environment.yaml file that will allow others to recreate the environment from scratch. To make this file, we use the export command and send the output to environment.yaml:
+
+while in metaair_env, export the packages used to an environment file:
+
+(``metaair_env``) $ conda env export >``metaair_env``.yaml
+
+Now anyone with the “metaair_env.yaml” file will be able to recreate the same metaair_env by running the following:
+
+$ conda env create --file environment.yaml
+
+A useful command to see all your environments is:
+
+$ conda env list
+
+
+
+Submitting jobs on the cluster:
+
+Next, let’s talk about how to run jobs. As a concrete example we will look at how to run a job to build the phyloflash database. The first step is going to be to write a bash script. You have two options: you could write the script on your laptop text editor and then use sftp (or ondemand) to upload it to the cluster. Or you could do it directly in the terminal using nano, vim, or another text editor that is terminal based. These editors can be very difficult to use because they do not have buttons or anything you can click on so you have to memorize all the commands to use them. For example, in vim, :i allows you to insert, dd deletes a line, d deletes a character, esc :wq writes and quits; etc. I have found nano to be the easiest. Max prefers vim (fancy fancy).
+
+So suppose you make a new file on your laptop with a text editor, and call it very-important-job.sh . In this file, write the following text, using your preferred text editor (I really like Sublime Text). Note that this is in the bash language.
+
+#!/bin/bash
+#SBATCH \--nodes=1
+#SBATCH \--time=10:00:00
+#SBATCH \--partition=amilan
+#SBATCH \--qos=normal
+#SBATCH \--job-name=phyloflash_makedb
+#SBATCH \--ntasks=20
+#SBATCH \--mail-type=ALL
+#SBATCH \--mail-user=emye7956\@colorado.edu
+
+module purge
+module load perl
+module load anaconda
+
+conda activate /projects/\$USER/software/anaconda/envs/metaair_env
+export PATH=\$PATH:/curc/sw/install/bio/bedtools/2.29.1/bin/:/curc/sw/install/bio/bbtools/bbmap/
+
+cd /scratch/alpine/emye7956/MetaAir/phyloFlash-pf3.4.2./phyloFlash_makedb.pl \--silva_file/scratch/alpine/emye7956/MetaAir/phyloFlash-pf3.4.2/SILVA_138.1_SSURef_NR99_tax_silva_trunc.fasta.gz\--univec_file/scratch/alpine/emye7956/MetaAir/phyloFlash-pf3.4.2/UniVec \--mem 60
+What does this text do? Let’s go through it step by step.
+
+1: Announce that this is a bash script.
+
+2: Announce that only one node (computer) is needed.
+
+3: Announce that a max of 10 hours are needed.
+
+4: Announce to use the amilan partition scheme (not sure what this is, but it was the reccomended default from the IT folks).
+
+5: Another thing from IT folks that we do not understand and leave as-is.
+
+6: Decide a name for the job. When you get an email saying the job is done it will have this name. Replace “phyloflash_makedb” with a name of your choice. Choose something descriptive, but do not use special characters like “;” or “&”, and maybe avoid space as well.
+
+7: How many cores do you want to use? 20 was reccomended by the IT folks so we stuck with that in this example.
+
+8: Do you want an email when it’s done? (Yes, you do, so leave this line as it is…)
+
+9: What is your email address? The system will email you when the task is done saying if it failed or succeeded. (Hint: “exit code 0” typically means success! Conversely, any other exit code is probably a failure.)
+
+10: “module purge” - Turn off any software that was turned on by prior users which might conflict with the software you need.
+
+11: “module load perl” - In this particular example, we wanted to run a script written in the perl programming language, called phyloFlash_makedb.pl. To do this, we needed to load the perl language! We do this by running module load perl.
+
+12: “module load anaconda” “conda activate /projects/\$USER/software/anaconda/envs/metaair_env”
+
+We made a conda environment with all the required dependencies at the given path, so now, we activate it. Notice that $USER will (in theory) return your username (e.g. emye7956). But you could just write your username instead.
+
+13: “export PATH=” - In bash, the PATH is a variable the terminal uses to find applications. So when you run an application in bash (for example, “sed” or “ls” or “cd” or “tree” or “cat” or “grep” or “git”), it LOOKS for this application in your path (which typically begins with /usr/bin). Therefore, you do not really “install” an application in bash. You just … have the application as an executable file, and either put that file into a folder that is already in your PATH, or, add the folder containing that file to your PATH. So in this step, we want to run phyloflash, which requires some dependencies that we installed previously (not in this tutorial), such as bedtools. Those dependencies are not in /usr/bin or one of those folders that is included in the path to begin with. Hence, we run a command to (temporarily, just for this session …) add the folders containing those dependencies, to the PATH. Note when there are multiple such folders we seperate then with a : . And voila, we can run phyloflash!
+
+14: We cd into the folder containing the phyloflash perl script.
+
+15: We run the phyloflash perl script. And we are done!
+
+So now, you’ve written your script, with the detailed script above as an example. And suppose you’ve saved it as very-important-job.sh. Moreover, you have put it on the cluster somehow. Maybe you used sftp, maybe you used ondemand and then mv’d it to the correct location, or maybe you wrote it directly on the cluster using one of those horrible text editors like nano or vim or emacs. REGARDLESS, let’s assume you have this script in your current directory, i.e.:
+
+    $ pwd
+    > /scratch/alpine/emye7956/MetaAir
+    $ ls
+    > very-important-job.sh
+Then the next step is simply:
+
+    sbatch very-important-job.sh
+And you are done! You will get an email when it is done (or when it fails). Note also, there might be a log file left behind in the directory you’re in when you run sbatch, which you could use to figure out what went wrong, if it does fail (which happens… a lot!!)
+
+Lastly, this tutorial was made by Emily Yeo and Max von Hippel. So please reach out if something isn’t clear.
