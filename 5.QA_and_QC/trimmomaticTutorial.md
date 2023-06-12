@@ -31,12 +31,16 @@ For single-ended data, one input and one output file are specified, plus the pro
 
 
 ## **Setting up an environment with conda**
+```
 conda create -n quality # this makes a new conda environment named "quality"
-	# If you already went through the fastQC tutorial in this folder and ran the conda install with all of the quality tools I listed, you might already have this environment and trimmomatic. 
-	# you can run "conda list" to see what tools are in an active environment if you want to check this. If it isn't there, continue with the next few steps
+```
+If you already went through the fastQC tutorial in this folder and ran the conda install with all of the quality tools I listed, you might already have this environment and trimmomatic. 
+You can run "conda list" to see what tools are in an active environment if you want to check this. If it isn't there, continue with the next few steps
+```
 conda activate quality # activate the environment you just made before installing anything
 conda install -c bioconda trimmomatic
-	### this uses bioconda to install trimmomatic and required dependencies
+```
+This uses bioconda to install trimmomatic and required dependencies
 
 ## Code to use Trimmomatic
 ### What is this code doing? 
