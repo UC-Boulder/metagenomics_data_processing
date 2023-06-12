@@ -9,8 +9,11 @@ We have commonly used text editors in the context of metagenomic processing for 
 The "best" text editor really comes down to personal preference.
 
 [**Sublime Text**](https://www.sublimetext.com)
+
 [**BBEdit**](https://www.barebones.com/products/bbedit/)
+
 [**emacs**](https://www.gnu.org/software/emacs/)
+
 [**Visual studio code**](https://code.visualstudio.com/)
 
 Some such as BBEdit are nice as they are very straightforward and do not have many capabilities. 
