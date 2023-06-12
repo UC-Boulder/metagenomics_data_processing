@@ -28,7 +28,7 @@ tar -xzf pf3.4.tar.gz # unzip the tar
 phyloFlash_makedb.pl --remote
 ```
 
-
+## Basic Use
 DO THIS IN A SCREEN IT WILL TAKE A LONG TIME!!! 
 
 The script: this loops through R1/R2 files like all other tutorials in this GitHub page. AKA will run PhyloFlash ONCE per sample
