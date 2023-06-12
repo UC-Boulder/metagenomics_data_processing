@@ -11,7 +11,7 @@
 module purge
 module load anaconda
 module load perl
-conda activate /projects/$USER/software/anaconda/envs/metaair_env
+conda activate /projects/$USER/software/anaconda/envs/qc_env
 export PATH=$PATH:/curc/sw/install/bio/bedtools/2.29.1/bin/
 export PATH=$PATH:/curc/sw/install/bio/bbtools/bbmap/
 export PATH=$PATH:/scratch/alpine/emye7956/MetaAir/FastQC/
