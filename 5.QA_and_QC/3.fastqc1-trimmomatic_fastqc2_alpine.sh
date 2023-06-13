@@ -32,6 +32,4 @@ for infile in *_R1_001.fastq.gz; do
     echo "FASTQC 2 for ${base}"
     fastqc trimmed_output/${base}.trimmed_1P trimmed_output/${base}.trimmed_2P -o fastqc2_output
 
-    echo "PHYLOFLASH for ${base}"
-    /scratch/alpine/emye7956/MetaAir/phyloFlash-pf3.4.2/phyloFlash.pl -lib ${base}_pl -read1 trimmed_output/${base}.trimmed_1P -read2 trimmed_output/${base}.trimmed_2P -almosteverything -readlength 150 -CPUs 10
 done
