@@ -47,4 +47,10 @@ The \* character is a wildcard so it allows you to select anything ending with .
 
 
 ## Other tools for file transfers 
-[**Globus**](https://www.globus.org/) = gooey interface for moving files. This is recommended by the CU Boulder research computing dept. 
+[**Globus**](https://www.globus.org/) = gooey interface for moving files. 
+Globus is a file transfer service that is used and recommended by the Research Computing department at the University of Colorado Boulder. You'll need to download and authorize "Globus Connect Personal" onto your computer for it to work. 
+
+CU Boulder has its own Globus endpoint, which can be accessed by clicking on the "Endpoint" button and searching for the CU Boulder Research Computing endpoint. Once on the endpoint, you'll be able to specify the path to your computer cluster account, and the folder you want to transfer the files to (eg: "/scratch/alpine/emye7956/data/". You need to specify two endpoints for every file transfer (where the files are, and where you want to move them to). So if one endpoint is a path on the CU Boulder Research Computing endpoint, the other endpoint might be on "myPC" "Volumes/IPHY/ADORlab/project" ... or whereever you want to move files to or from. 
+
+Globus utilized a data transfer node (DTN) for speedier transfers of large data. It also resumes failed transfers from where they left off, which is handy for internet interruptions. For transfers that take more than a day, you'll need to reauthorize your credentials every 24hours. 
+*useful tip - sometimes when configuring your endpoint, you might get told "you do not have access to this directory". Don't panic. If you have downloaded globus connect personal, click on the icon, go to preferences, then go to the "access" tab, and add the path to which you need access to.
