@@ -47,6 +47,8 @@ The \* character is a wildcard so it allows you to select anything ending with .
 
 
 ## Other tools for file transfers 
+
+## Globus
 [**Globus**](https://www.globus.org/) = gooey interface for moving files. 
 Globus is a file transfer service that is used and recommended by the Research Computing department at the University of Colorado Boulder. You'll need to download and authorize "Globus Connect Personal" onto your computer for it to work. 
 
