@@ -19,3 +19,39 @@ for file in $(find . -name *bugs_list.tsv); do
   cp $file $hyphy_bugs/.;
 done
 ```
+but I have different studies that I want to seperate by so I am making subdirectories for all those studies and then moving them into it: 
+
+```bash
+cd /scratch/alpine/emye7956/MetaAir/newdata/per_sample_FASTQ/172621/human_output4/all_bugs
+
+mkdir hyphy_bugs
+mkdir metaair_bugs
+mkdir metachem_bugs
+mkdir blank_bugs
+mkdir gap_bugs
+
+# move all the files into those directories 
+mv *HYPHY* hyphy_bugs/
+mv *MetaAir* metaair_bugs/
+mv *MetaChem* metachem_bugs/
+mv *BLANK* blank_bugs/
+mv *GAP* gap_bugs/
+```
+shweeeet, now things are a little more ordered for the metaphlan taxonomic outputs. Now I want to move these directories to my computer to import into R. So in my terminal, I cd to where I want the files to be on my computer. I sftp onto the cluster and then ove the files I want: 
+
+```bash
+cd Volumes/IPHY/ADORLab/Lab\ Projects/MetaAIR/Metagenomics/metaphlan_output 
+
+sftp emye7956@login.rc.colorado.edu
+cd /scratch/alpine/emye7956/MetaAir/newdata/per_sample_FASTQ/172621/human_output4/
+
+get -r all_bugs
+```
+
+Great, now I want to put all these tables into R so I can check things out. So open up a new script and do the following: 
+
+```R
+
+
+
+```
