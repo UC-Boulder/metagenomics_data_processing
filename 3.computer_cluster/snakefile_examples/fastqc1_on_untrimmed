@@ -1,0 +1,33 @@
+SAMPLES = []
+
+# this is calling in all the samples I want to run. I've named them in a txt file called "emilystodolist.txt". 
+with open("emilystodolist.txt", "r") as file:
+    for line in file:
+        lline = line.strip() # remove white space in txt files
+        if len(lline) > 0: # checks to see if there's anything left and not an empty line
+            SAMPLES.append(line.strip()) # adds the non-empty sample name to the space. 
+
+rule all:
+    input:
+        expand("/scratch/alpine/emye7956/mothersmilk/emilys-snake-output-fastqc/{sample}", sample=SAMPLES)
+
+rule fastqc:
+    input:
+        FORWARD=f"/scratch/alpine/emye7956/mothersmilk/all_qzs/{{sample}}_1.fq.gz",
+        REVERSE=f"/scratch/alpine/emye7956/mothersmilk/all_qzs/{{sample}}_2.fq.gz"
+    output:
+        directory(f"/scratch/alpine/emye7956/mothersmilk/emilys-snake-output-fastqc-june30/{{sample}}")
+    conda:
+        "qc_env_with_fastqc_and_multiqc"
+    resources:
+        mem_mb=30000, # MB
+        partition="amilan",
+        slurm_extra="--nodes=1 --qos=normal --time=20:00:00 --ntasks=8 --mail-type=ALL --mail-user=emye7956@colorado.edu"
+    threads: 8
+    shell:
+        """
+        mkdir -p /scratch/alpine/emye7956/mothersmilk/emilys-snake-output-fastqc # making your output directory 
+        mkdir -p {output} 
+        fastqc --threads 8 {input.FORWARD} {input.REVERSE} -o {output} || echo {wildcards.sample} >> nzs.txt
+        # the portion after "echo" is writing any sample name that didn't run to a txt file so you cal see them later
+        """
