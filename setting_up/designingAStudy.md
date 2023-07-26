@@ -30,7 +30,7 @@ In short, 16S is much less expensive and easier to process, shotgun sequencing i
 ![image2](images/methods16s.png)
 
 
-# 3. If you've chosen shotgun, select between shallow or deep sequncing: 
+# 3. If you've chosen shotgun, select between shallow or deep sequencing: 
 Deep shotgun metagenomics or Shotgun metagenomics sequencing (SMS) can elucidate the community structure and species classification, as well as provide insights into systemic evolution, gene function, metabolic network, and antibiotic resistance gene information. However, the deep insights with shotgun metagenomic sequencing come with a significantly higher cost than 16S sequencing. 
 
 Sequencing at different sequencing depths allows for multiple applications and analysis purposes. Shallow shotgun metagenomic sequencing (SSMS) has emerged as an approach to bridge the gap between 16S sequencing and deep metagenomic sequencing. SSMS is cost-competitive with 16S sequencing, while also providing species-level resolution.
