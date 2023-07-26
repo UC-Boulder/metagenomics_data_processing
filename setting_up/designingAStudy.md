@@ -23,7 +23,7 @@ In short, 16S is much less expensive and easier to process, shotgun sequencing i
 [**Comparison between 16S rRNA and shotgun sequencing data for the taxonomic characterization of the gut microbiota**](https://www.nature.com/articles/s41598-021-82726-y)
 
 
-![image1](/Documents/projects/metaGSummer23/myTutorials/images/metaGvs16s.png)
+![image1](images/metaGvs16s.png)
 
 
 ## If you determine that 16S sequencing is adequate for your analytical purposes: 
