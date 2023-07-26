@@ -27,7 +27,7 @@ In short, 16S is much less expensive and easier to process, shotgun sequencing i
 
 
 ## If you determine that 16S sequencing is adequate for your analytical purposes: 
-![image2](/Documents/projects/metaGSummer23/myTutorials/images/methods16s.png)
+![image2](images/methods16s.png)
 
 
 # 3. If you've chosen shotgun, select between shallow or deep sequncing: 
@@ -49,20 +49,20 @@ This is a very simplistic calculation. In most metagenomics studies there are th
 
 
 ## This table outlines the main differences and requirements for both shallow and deep shotgun sequencing: 
-![image3](/Documents/projects/metaGSummer23/myTutorials/images/shallowVSdeep.png)
+![image3](images/shallowVSdeep.png)
 
 
 ## Here are how the downstream analyses will be impacted depending on depth of sequencing: 
-![image4](/Documents/projects/metaGSummer23/myTutorials/images/analyticalComparison.png)
+![image4](images/analyticalComparison.png)
 
 
 
 # 4. For shotgun sequencing, choose what type of machine you will use for the run
 ## Within Illumina, there are many different machines which accomodate a wide range of parameters. Below I have included some tables which help to differentiate between these options: 
 
-![image5](/Documents/projects/metaGSummer23/myTutorials/images/illumina.png)
+![image5](images/illumina.png)
 
-![image6](/Documents/projects/metaGSummer23/myTutorials/images/illumina2.png)
+![image6](images/illumina2.png)
 
 
 In addition, on the Illumina website there is a [**LINK**](https://www.illumina.com/systems/sequencing-platforms/comparison-tool.html#/) which helps to narrow down what machine is best suited for your study. NOTE: THE NUMBER OF SAMPLES WILL IMPACT SEQUENCING DEPTH (i.e., if you have a ton of samples packed on a single run, you will get lower coverage of each of these. Whereas if you have fewer samples, the coverage will be greater.) Finally, the sequencing center you are using should be able to answer any specific questions and help to ensure you get the best possible results. 
