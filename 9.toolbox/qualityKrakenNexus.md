@@ -2,8 +2,8 @@
 
 
 # Run a test which just loops with echo: 
-## doing this to make sure the loop works before adding in any commands 
-## when you make this zsh file in Nexus, you need to run chmod +x on it before you can run it
+doing this to make sure the loop works before adding in any commands 
+### when you make this zsh file in Nexus, you need to run chmod +x on it before you can run it
 
 ```
 #!/bin/zsh
@@ -14,7 +14,7 @@ done
 ```
 
 
-1. FASTQC
+# 1. FASTQC
 ```
 #!/bin/zsh
 
@@ -30,11 +30,15 @@ done
 ## FYI - took 17 min for gap samples on 24 threads 
 
 
-2. MULTIQC 
 
+# 2. MULTIQC 
+
+```
 multiqc .
+```
 
-3. TRIMMOMATIC 
+
+# 3. TRIMMOMATIC 
 ```
 #!/bin/zsh
 
@@ -58,7 +62,8 @@ mv *_2U* trimmedOut
 
 
 
-4. FASTQC 2 **
+# 4. FASTQC 2
+
 ```
 #!/bin/zsh
 
@@ -71,11 +76,15 @@ for infile in *_R1_001.trimmed.fastq.gz; do
 done 
 ```
 
-5. MULTIQC 2
+# 5. MULTIQC 2
+
+```
 multiqc .
+```
 
 
-6. KRAKEN2 
+
+# 6. KRAKEN2 
 ```
 #!/bin/zsh
 for infile in *_L004_R1_001.trimmed.fastq.gz; do
@@ -100,26 +109,28 @@ done
 mkdir reports && mv *report* reports
 mkdir output && mv *output* output
 
-7. KRAKEN TOOLS
-# combine MPA output
-## for standard:
-### go to: /Users/maria/tools/KrakenTools
+
+
+# 7. KRAKEN TOOLS
+## combine MPA output
+### for standard:
+#### go to: /Users/maria/tools/KrakenTools
 
 ```
 python combine_mpa.py -i /Users/maria/projects/knightLab/metaAIR/krakenStandardOut/reports/* -o /Users/maria/projects/knightLab/metaAIR/krakenStandardOut/GAP.COMBINED.MPA
 ```
 
-## for mini kraken
+### for mini kraken
 ```
 python combine_mpa.py -i /Users/maria/projects/knightLab/metaAIR/krakenMiniOut/reports/* -o /Users/maria/projects/knightLab/metaAIR/krakenMiniOut/GAP.miniK.COMBINED.MPA
 ```
 
 
-8. BRACKEN
+# 8. BRACKEN
 
-# must sudo -s before running this script #sketchy
-# NEED TO CHANGE THE PATHS FOR INANDOUT
-# ALSO - NEED TO CHMOD 777 THE DIRECTORIES YOU WILL BE USING FILES FROM FOR "INANDOUT"
+## must sudo -s before running this script #sketchy
+#### NEED TO CHANGE THE PATHS FOR INANDOUT
+#### ALSO - NEED TO CHMOD 777 THE DIRECTORIES YOU WILL BE USING FILES FROM FOR "INANDOUT"
 
 ```
 #!/bin/zsh
@@ -141,8 +152,10 @@ docker run -v /Users/maria/projects/knightLab/metaAIR/krak4brack:/inAndOut -v /o
 done
 ```
 
-# in brackenReports
-## set up the directories and organize the files 
+### in brackenReports
+set up the directories and organize the files 
+
+```
 mkdir brackenReports
 mv *report.bracken.* brackenReports
 mkdir phylum
@@ -157,12 +170,12 @@ mkdir genus
 mv *_G_* genus
 mkdir species
 mv *_S_* species
+```
 
 
+ # 9. COMBINE BRACKEN OUTPUT
 
- 9. COMBINE BRACKEN OUTPUT
-
-# run in /Users/maria/tools/Bracken/analysis_scripts
+### run in /Users/maria/tools/Bracken/analysis_scripts
 ./combine_bracken_outputs.py --files /Users/maria/projects/knightLab/metaAIR/krak4brack/brackenOut/phylum/* --output /Users/maria/projects/knightLab/metaAIR/krak4brack/brackenOut/phylum/combinedBrack_phylum
 ./combine_bracken_outputs.py --files /Users/maria/projects/knightLab/metaAIR/krak4brack/brackenOut/family/* --output /Users/maria/projects/knightLab/metaAIR/krak4brack/brackenOut/family/combinedBrack_family
 ./combine_bracken_outputs.py --files /Users/maria/projects/knightLab/metaAIR/krak4brack/brackenOut/class/* --output /Users/maria/projects/knightLab/metaAIR/krak4brack/brackenOut/class/combinedBrack_class
