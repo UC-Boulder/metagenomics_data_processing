@@ -176,10 +176,12 @@ mv *_S_* species
  # 9. COMBINE BRACKEN OUTPUT
 
 ### run in /Users/maria/tools/Bracken/analysis_scripts
+
+```
 ./combine_bracken_outputs.py --files /Users/maria/projects/knightLab/metaAIR/krak4brack/brackenOut/phylum/* --output /Users/maria/projects/knightLab/metaAIR/krak4brack/brackenOut/phylum/combinedBrack_phylum
 ./combine_bracken_outputs.py --files /Users/maria/projects/knightLab/metaAIR/krak4brack/brackenOut/family/* --output /Users/maria/projects/knightLab/metaAIR/krak4brack/brackenOut/family/combinedBrack_family
 ./combine_bracken_outputs.py --files /Users/maria/projects/knightLab/metaAIR/krak4brack/brackenOut/class/* --output /Users/maria/projects/knightLab/metaAIR/krak4brack/brackenOut/class/combinedBrack_class
 ./combine_bracken_outputs.py --files /Users/maria/projects/knightLab/metaAIR/krak4brack/brackenOut/order/* --output /Users/maria/projects/knightLab/metaAIR/krak4brack/brackenOut/order/combinedBrack_order
 ./combine_bracken_outputs.py --files /Users/maria/projects/knightLab/metaAIR/krak4brack/brackenOut/genus/* --output /Users/maria/projects/knightLab/metaAIR/krak4brack/brackenOut/genus/combinedBrack_genus
 ./combine_bracken_outputs.py --files /Users/maria/projects/knightLab/metaAIR/krak4brack/brackenOut/species/* --output /Users/maria/projects/knightLab/metaAIR/krak4brack/brackenOut/species/combinedBrack_species
-
+```
