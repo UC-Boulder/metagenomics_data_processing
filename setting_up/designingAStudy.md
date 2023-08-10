@@ -66,3 +66,13 @@ This is a very simplistic calculation. In most metagenomics studies there are th
 
 
 In addition, on the Illumina website there is a [**LINK**](https://www.illumina.com/systems/sequencing-platforms/comparison-tool.html#/) which helps to narrow down what machine is best suited for your study. NOTE: THE NUMBER OF SAMPLES WILL IMPACT SEQUENCING DEPTH (i.e., if you have a ton of samples packed on a single run, you will get lower coverage of each of these. Whereas if you have fewer samples, the coverage will be greater.) Finally, the sequencing center you are using should be able to answer any specific questions and help to ensure you get the best possible results. 
+
+
+# Example thought process for setting up a metagenomic run with HYPHY & Pathways samples
+Goal = 40-50 million reads each for 91 samples (5 blanks/controls not included). 
+
+Therefore, we need 3.64 - 4.55 billion reads total. 
+
+S1 flowcells yield 2.6-3.2 billion reads and S2 flowcells yield 6.6-8.2 billion reads, we opted to use the full S2 flowcell to ensure enough reads were obtained. 
+
+Of the 40-50 million reads per sample, ~20% of total reads will be host-associated (this is a conservative estimate - most likely 5-10%). So consider that this will need to be filtered out before your analysis.
