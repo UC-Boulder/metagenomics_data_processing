@@ -1,7 +1,7 @@
 # Metagenomics Data Processing
 Welcome to the ADOR lab Metagenomics Data Processing github repo!
 This is aimed to be a resource for future metagenomics data processing and analyses.
-
+![9A5354CD-B2A0-4E77-8C04-52F38FE028D1](https://github.com/UC-Boulder/metagenomics_data_processing/assets/104112036/29978319-a9a7-40ca-b566-40f1c95c8ea9)
 Information covering the following topics is included: 
 
 1. setting_up
@@ -33,7 +33,7 @@ Information covering the following topics is included:
 		- Humann3 (& Metaphlan)
 		- Kraken2
 		- PhyloFlash
-![9A5354CD-B2A0-4E77-8C04-52F38FE028D1](https://github.com/UC-Boulder/metagenomics_data_processing/assets/104112036/29978319-a9a7-40ca-b566-40f1c95c8ea9)
+
 
 
 
