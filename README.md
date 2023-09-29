@@ -33,11 +33,7 @@ Information covering the following topics is included:
 		- Humann3 (& Metaphlan)
 		- Kraken2
 		- PhyloFlash
+![9A5354CD-B2A0-4E77-8C04-52F38FE028D1](https://github.com/UC-Boulder/metagenomics_data_processing/assets/104112036/29978319-a9a7-40ca-b566-40f1c95c8ea9)
 
-new:
-![image](https://github.com/UC-Boulder/metagenomics_data_processing/assets/104112036/80d19010-5460-449f-b953-ffbd438770b4)
-
-old:
-![image](https://github.com/UC-Boulder/metagenomics_data_processing/assets/104112036/3ec99367-9e03-4fe9-8a71-d66717a88d29)
 
 
