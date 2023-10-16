@@ -222,14 +222,13 @@ gzip: L3._CKDL230013656-1A_H5T3JDSX7_L3.trimmed_2P.clean_2.fastq.gz: No such fil
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=emye7956@colorado.edu
 
-cd /pl/active/ADOR/projects/mothersmilk/hostile/all
-
 module purge
 module load anaconda
 conda activate /projects/emye7956/software/anaconda/envs/kraken2
 
 # make a dummy file to redo all
-processed_files=($(cat /pl/active/ADOR/projects/mothersmilk/kraken/kraken_output/kraken_dummy.txt))
+cd /pl/active/ADOR/projects/mothersmilk/hostile/all
+processed_files=($(cat /pl/active/ADOR/projects/mothersmilk/kraken/kraken_out/redo/take5_ed_short.txt))
 
 for infile in *_1.fastq.gz; do
     base=$(basename ${infile} _1.fastq.gz)
@@ -280,13 +279,29 @@ for infile in *_1.fastq.gz; do
 done
 -----------------------------------
 # and another 
+
 for infile in *_1.fastq.gz; do
     base=$(basename ${infile} _1.fastq.gz)
     base=${base%%_*}
     suffix=$(echo $infile | cut -d'_' -f2-4 | sed 's/\.trimmed//')
     echo "${base}_${suffix}"
 done
+------------------------------------------------------------------------
+# and another 
 
+for infile in *_1.fastq.gz; do
+    base=$(basename ${infile} _1.fastq.gz)
+    base=${base%%_*}
+    suffix=$(echo $infile | cut -d'_' -f2-4 | sed 's/\.trimmed//')
+    echo "${base}_${suffix}"
+
+    # Check if the base name is in the processed_files array
+    if [[ ! " ${processed_files[@]} " =~ " ${base} " ]]; then
+        echo "Running sample ${base}"
+    else
+        echo "Skipping sample ${base} (already processed)"
+    fi
+done
 ------------------------------------------------------------------------
 # kraken_processed3.txt looks like this
 MG194_CKDL230013656-1A_H5T3JDSX7_L3
@@ -294,14 +309,53 @@ MG195_CKDL230013656-1A_H5T3JDSX7_L3
 MG196_CKDL230013656-1A_H5T3JDSX7_L3
 MG198_CKDL230013656-1A_H5T3JDSX7_L3
 MG199_CKDL230013656-1A_H5T3JDSX7_L3
-MG19_CKDL230012783-1A_H5MMKDSX7_L4
-MG1_CKDL230012783-1A_H5MMKDSX7_L4
-MG201_CKDL230013656-1A_H5T3JDSX7_L3
-MG202_CKDL230013656-1A_H5T3JDSX7_L3
-MG203_CKDL230013656-1A_H5T3JDSX7_L3
-MG204_CKDL230013656-1A_H5T3JDSX7_L3
-MG205_CKDL230013656-1A_H5T3JDSX7_L3
 -----------------------------------------------------------------------------
+#take5.txt
+./W8_CKDL230012783-1A_H5MMKDSX7_L4.report.txt
+./MG880_CKDL230013663-1A_H5MMKDSX7_L1.report.txt
+./L1_CKDL230012783-1A_H5MMKDSX7_L4.report.txt
+./MG900_CKDL230013663-1A_H5MMKDSX7_L1.report.txt
+./MG415_CKDL230013658-1A_H5MMKDSX7_L4.report.txt
+./MG579_CKDL230013660-1A_H5NJWDSX7_L3.report.txt
+
+
+# Edit the txt below from 
+./MG383_CKDL230013658-1A_H5MMKDSX7_L4.trimmed_1P.clean_1.fastq.gz
+./MG343_CKDL230013657-1A_H5MMKDSX7_L3.trimmed_1P.cleancombined.fastq.gz
+./MG87_CKDL230012783-1A_H5MMKDSX7_L4.trimmed_1P.clean_1.fastq.gz
+./MG467_CKDL230013659-1A_H5MMKDSX7_L2.trimmed_2P.clean_2.fastq.gz
+
+# To this:
+./L9_CKDL230013662-1A_H5T3JDSX7_L4.
+./L9_CKDL230013662-1A_H5T3JDSX7_L4.
+./MG10_CKDL230012783-1A_H5MMKDSX7_L4.
+./MG10_CKDL230012783-1A_H5MMKDSX7_L4.
+./MG10_CKDL230012783-1A_H5MMKDSX7_L4.
+
+# Using this: 
+
+#!/bin/bash
+
+input_file="take5.txt"
+output_file="take5_ed.txt"
+
+while IFS= read -r line; do
+    updated_line="${line%%report*}"
+    echo "$updated_line" >> "$output_file"
+done < "$input_file"
+
+# and then I did this:
+#!/bin/bash
+
+input_file="take5_ed.txt"
+output_file="take5_ed_short.txt"
+
+while IFS= read -r line; do
+    updated_line="${line#./}"
+    updated_line="${updated_line%%_*}"
+    echo "$updated_line" >> "$output_file"
+done < "$input_file"
+
 # writting all output reports with no underscore and ending in txt to a txt file
 
 #!/bin/bash
@@ -319,10 +373,18 @@ done
 
 echo "File names ending with 'txt' and without underscores written to short_done.txt"
 
+# finding matches between txt sample names:
+sort /pl/active/ADOR/projects/mothersmilk/kraken/kraken_out/redo/take5_ed.txt -o /pl/active/ADOR/projects/mothersmilk/kraken/kraken_out/redo/take5_ed.txt
+
+sort /pl/active/ADOR/projects/mothersmilk/hostile/all/all_gzs_ed.txt -o /pl/active/ADOR/projects/mothersmilk/hostile/all/all_gzs_ed.txt
+
+comm -3 /pl/active/ADOR/projects/mothersmilk/kraken/kraken_out/redo/take5_ed.txt /pl/active/ADOR/projects/mothersmilk/hostile/all/all_gzs_ed.txt -1 -2
 -----------------------------------------------------------------------------
+#Files that need redoing
+L2
 
-
-# Merging Kraken Reports 
+-----------------------------------------------------------------------------
+# Merging Kraken Reports  (Maria's version)
 
 #!/bin/bash
 
@@ -341,12 +403,38 @@ for file in *.txt; do
 done
 
 # Change back to the parent directory
-cd ~/Documents/projects/metagenomicProcessinng/metaAirChemGapHyphy/
+cd ~/pl/active/ADOR/projects/mothersmilk/kraken/kraken_out/merged
 
 # Merge the contents of the array into a single CSV file
 header="V1,${myFiles[@]}"
 (IFS=','; echo "$header"; paste -d',' <(echo "${dat[${myFiles[0]}]}") \
-    <(echo "${dat[${myFiles[1]}]}") ...) > taxTabALLJune5.csv
+    <(echo "${dat[${myFiles[1]}]}") ...) > all_kraken_oct14.csv
 
+-----------------------------------------------------------------------------
+# Merging Kraken report txts (Emily Verison)
 
+#!/bin/bash
+
+# Set the working directory
+cd ~/pl/active/ADOR/projects/mothersmilk/kraken/kraken_out/redo
+
+# Create a list of file names
+myFiles=($(ls -I "." -I ".." | sed 's/_L.*.report.txt//'))
+
+# Initialize an array to store the file contents
+declare -A dat
+
+# Read in the files and store them in the array (be on a compute node for this)
+for file in *report.txt; do
+    # Extract the common prefix without the _L* part
+    key=$(echo "$file" | sed 's/_L.*//')
+    dat["$key"]=$(cat "$file")
+done
+
+# Change back to the parent directory
+cd ~/pl/active/ADOR/projects/mothersmilk/kraken/kraken_out/merged
+
+# Merge the contents of the array into a single CSV file
+header="V1,${myFiles[*]}"
+(IFS=','; echo "$header"; paste -d',' <(echo "${dat[${myFiles[0]}]}") <(echo "${dat[${myFiles[1]}]}") ...) > all_kraken_redo.csv
 
